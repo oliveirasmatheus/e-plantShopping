@@ -7,13 +7,16 @@ const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
 
-  // Calculate total amount for all products in the cart
-    const calculateTotalAmount = () => {
-        return cart.reduce((total, item) => {
-            const cost = parseFloat(item.cost.replace('$', ''));
-            return total + (item.quantity * cost);
-        }, 0);
-    };
+  const calculateTotalAmount = () => {
+    return cart.reduce((total, item) => {
+      const cost = parseFloat(item.cost.replace('$', ''));
+      return total + (item.quantity * cost);
+    }, 0);
+  };
+
+  const calculateTotalQuantity = () => {
+    return cart.reduce((total, item) => total + item.quantity, 0);
+  };
 
   const handleContinueShopping = (e) => {
     if (onContinueShopping) {
@@ -21,10 +24,8 @@ const CartItem = ({ onContinueShopping }) => {
     }
   };
 
-
-
   const handleIncrement = (item) => {
-     dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
+    dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
   };
 
   const handleDecrement = (item) => {
@@ -39,14 +40,18 @@ const CartItem = ({ onContinueShopping }) => {
     dispatch(removeItem(item.name));
   };
 
-  // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
-    return item.quantity * item.cost;
+    return item.quantity * parseFloat(item.cost.replace('$', ''));
   };
+
+  const handleCheckoutShopping = (e) => {
+    alert('Functionality to be added for future reference');
+    };
 
   return (
     <div className="cart-container">
       <h2 style={{ color: 'black' }}>Total Cart Amount: ${calculateTotalAmount()}</h2>
+      <h3 style={{ color: 'black' }}>Total Items: {calculateTotalQuantity()}</h3>
       <div>
         {cart.map(item => (
           <div className="cart-item" key={item.name}>
@@ -75,10 +80,6 @@ const CartItem = ({ onContinueShopping }) => {
   );
 };
 
-const handleCheckoutShopping = (e) => {
-  alert('Functionality to be added for future reference');
-};
+
 
 export default CartItem;
-
-
