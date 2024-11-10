@@ -4,13 +4,12 @@ import './ProductList.css';
 import CartItem from './CartItem';
 import { addItem } from './CartSlice';
 
-function ProductList() {
+function ProductList({ onReturnToLanding }) {
     const dispatch = useDispatch();
     const cartItems = useSelector((state) => state.cart.items);
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(true);
     const [addedToCart, setAddedToCart] = useState({});
-    const [showProductList, setShowProductList] = useState(false);
 
     const totalQuantity = cartItems.reduce((total, item) => total + (item.quantity || 1), 0);
 
@@ -53,7 +52,7 @@ function ProductList() {
     const handleContinueShopping = () => {
         setShowCart(false);
         setAddedToCart({});
-      };
+    };
 
     const handlePlantsClick = (e) => {
         e.preventDefault();
@@ -279,7 +278,7 @@ function ProductList() {
                 <div className="tag">
                     <div className="luxury">
                         <img src="https://cdn.pixabay.com/photo/2020/08/05/13/12/eco-5465432_1280.png" alt="" />
-                        <a href="#" onClick={handleGetStartedClick} style={{ textDecoration: 'none' }}>
+                        <a href="#" onClick={onReturnToLanding} style={{ textDecoration: 'none' }}>
                             <div className='tag_home_link'>
                                 <h3 style={{ color: 'white' }}>Paradise Nursery</h3>
                                 <i style={{ color: 'white' }}>Where Green Meets Serenity</i>
